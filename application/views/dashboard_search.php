@@ -1,0 +1,383 @@
+
+<?php
+
+if (!empty($_POST['asin'])) {
+    
+    $chkdata = 1;
+    $asin = trim($_POST['asin']);
+    unset($_POST['asin']);
+    //$main_url = "https://www.amazon.com/gp/offer-listing/".$asin."/ref=dp_olp_new?ie=UTF8&condition=new&th=1&psc=1";
+    $main_url = "https://www.amazon.com/dp/".$asin."/ref=olp_aod_redir_impl1?_encoding=UTF8&aod=1&th=1&psc=1";
+    
+    if (empty($amaz_aug_asin)) {
+       
+
+        $html = getPage($main_url);
+       
+        //phpQuery::newDocument($html);
+        $document = phpQuery::newDocument($html);   
+
+        
+        //$amznotseller = array('0'=>1); //get_amazon_not_seller($asin, $html);
+        //$amznotseller = get_amazon_not_seller($asin, $html);
+        
+        //$amznotseller = null;
+	//$sellerstock = array('0'=>0);
+	$amznotseller = null;
+	$sellerstock = 0;
+    $amazonstock  = 0;
+
+    $isAmazonInBoxStock = null;	// true if the amazon is in buybox and stock available.
+	$isSellerInBoxStock = null; // true if the seller is in buybox and stock available.
+	$isSellerInNonBoxStock = null; // true if the seller is in stock and not in buybox
+    $inStock = null;
+
+	$res = 200;
+        $amount = '';
+        $price = '';
+        $ship = '';
+        $shipping = '';
+        $rating = '';
+        $reviews = '';
+        //$sel_name ='';
+        $user = $this->db->query("SELECT * FROM users WHERE ID=".$this->session->userdata('user_id'))->row();
+	$str = $user->company;
+	$str_name = $user->company;
+        if ($html) {
+            // Extract data from product sellers page
+            /*$image = pq('div#olpProductImage')->find("img")->attr("src");*/
+            $image = pq("#main-image-container")->find('img')->attr('data-old-hires');
+            $title_name = pq("span#productTitle")->text();
+            $title_name = trim($title_name);
+            $rating = pq('#acrPopover')->eq(0)->text();
+            
+            //$rating = pq('i.a-icon-star')->eq(0)->text();
+           
+            $reviews = pq('#acrCustomerReviewLink')->text();
+            $reviews = trim($reviews);
+            $price = pq('#corePrice_feature_div .a-offscreen')->eq(0)->text();
+            $price = trim($price);
+
+            //$sell_name_new = $document->find('.tabular-buybox-text[tabular-attribute-name="Sold by"]')->text();
+            $seller_name = '';
+            $stock_status = pq('#availability')->text();
+            $stock_status = trim($stock_status);
+    
+            // echo "\nstock_status: " . $stock_status;
+            // echo "\n===========\n";
+            // exit;   
+            if (!$stock_status) {
+                $stock_status = pq('#outOfStock')->text();
+                $inStock = 0;
+            }
+            if ($stock_status == 'In Stock.' || stripos($stock_status, 'in stock.') !== FALSE ||
+            stripos($stock_status, 'This item cannot be shipped') !== FALSE ||
+            stripos($stock_status, 'beyond seller\'s shipping coverage') !== FALSE ||
+            stripos($stock_status, 'Usually ships within') !== FALSE ||
+            stripos($stock_status, 'In stock on') !== FALSE ||
+            stripos($stock_status, 'left in stock') !== FALSE)
+             {
+                $inStock = 1;
+            } 
+            if (stripos($stock_status, 'In stock soon.') !== FALSE ||
+                stripos($stock_status, 'Currently Unavailable') !== FALSE ||
+                stripos($stock_status, 'Temporarily out of stock') !== FALSE
+               
+               ) {
+                   
+                    $inStock = 0;
+            }
+            if($inStock === 0){
+                $isSellerInBoxStock = 0;
+                $isAmazonInBoxStock = 0;
+            }
+            // echo "\ninStock: ";
+            // echo  $inStock;
+            // echo "\n===========\n";
+            
+            //$sell_name_new = pq('.tabular-buybox-text');
+            //$sell_name_new = pq('#sellerProfileTriggerId')->text();
+           // $sell_name_new = $document->find('.tabular-buybox-text')->text();
+            $sell_name_new = $document->find('.tabular-buybox-text[tabular-attribute-name="Sold by"]');
+            $shipping = $document->find('.tabular-buybox-text[tabular-attribute-name="Ships from"]')->text();
+            
+            $sell_name_new = trim($sell_name_new);
+         
+            // echo "sell_name_new,$sell_name_new";
+            // exit;
+            if($sell_name_new != ''){
+               
+                if(stripos($sell_name_new, 'Amazon') !== FALSE) {
+                   // echo "is amazon stock?";
+                    if($inStock === 1){
+                       
+                        $isAmazonInBoxStock = 1;                    
+                    }else{
+                        $isAmazonInBoxStock = 0;
+                    }
+                    $isSellerInBoxStock = 0;
+                    $seller_name = 'Amazon';
+                } else if (stripos($sell_name_new, 'Amazon') === FALSE) {
+                    $seller_name = $sell_name_new;
+                   // echo "is not amazon stock?".$str_name."--new---".$sell_name_new;
+                   
+                    if(stripos($sell_name_new, $str_name) !== FALSE){
+                        if($inStock === 1){
+                            $isSellerInBoxStock = 1;
+                        }else{
+                            $isSellerInBoxStock = 0;
+                        }
+                    }else{
+                        $isSellerInBoxStock = 0;
+                    }
+                   
+                    $isAmazonInBoxStock = 0;
+                } else {
+                    //echo "is not stock?";
+                    $seller_name = $sell_name_new;
+                    $isSellerInBoxStock = 0;
+                    $isAmazonInBoxStock = 0;
+                }
+            }
+            //echo $seller_name;
+            $seller_ids = '';
+            
+            $sell_name_id = pq('.tabular-buybox-text');
+            
+            if($sell_name_id != ''){
+               
+                $seller_url = pq('.tabular-buybox-text')->find('a')->attr('href');
+                $seller_ids = '';
+            
+                if ($str = getInBetweenStrings($seller_url, 'seller=', '&')) {
+                    $seller_ids = $str;
+               
+                } else if ($str = getInBetweenStrings($seller_url, 'seller=', '')) {
+                    $seller_ids = $str;
+                 
+                }
+            }
+            //echo "<br>mailseller id--$seller_ids";
+            
+            if(stripos($seller_name, $str_name) == FALSE){
+                $other_seller =  pq('#aod-offer-soldBy');
+                $other_sell_name = $other_seller->find('a')->text();
+                // a-link-normal
+                // echo "\nseller_name others-----: ";
+                // echo $other_sell_name;
+                // echo "\n===========\n";
+            
+                $other_seller_name = '';
+                if($other_sell_name != ''){
+                    if (stripos($other_sell_name, 'amazon') !== FALSE) {
+                    $inStock = 1;
+                    $other_seller_name = 'Amazon.com';
+                    $isAmazonInBoxStock = 1;
+                    }
+                    if (stripos($other_sell_name, $str_name) !== FALSE) {
+                            $seller_name = trim($other_sell_name);
+                            $isSellerInBoxStock = 1;
+                            $seller_url = $other_seller->find('a')->attr('href');
+                            $seller_ids = '';
+                        
+                            if ($str = getInBetweenStrings($seller_url, 'seller=', '&')) {
+                                $seller_ids = $str;
+                        
+                            } else if ($str = getInBetweenStrings($seller_url, 'seller=', '')) {
+                                $seller_ids = $str;
+                            
+                            }
+                           // echo "<br>other seller id--$seller_ids";
+                    }
+            }
+            }
+    
+            $sellerstock = ($isSellerInBoxStock) ? $isSellerInBoxStock : 0;
+            $amazonstock = ($isAmazonInBoxStock) ? $isAmazonInBoxStock : 0;
+            //echo  "sellerstock".$sellerstock. "amazonstock".$amazonstock ;
+            //Look for the other sellers
+            // if($isAmazonInBoxStock === 0 && $isSellerInBoxStock === 0){
+    
+            // }
+                        
+            if (is_null($isAmazonInBoxStock) || is_null($isSellerInBoxStock)) {
+                $res = 400;
+            }
+	  if ((!isset($image) || !$image) || (!isset($title_name)|| !$title_name)) {
+                $requires_rescrape = false;
+            }else{
+                $requires_rescrape = true;
+            }
+        } else {
+            $res = 404;
+        }
+
+        //$result = array('asin' => $asin, 'isAmazonInBoxStock' => $isAmazonInBoxStock, 'isSellerInBoxStock' => $isSellerInBoxStock, 'sellername' => $seller_name, 'other_seller_name' => $other_seller_name);
+        
+       
+        // date_default_timezone_set("America/New_York");
+        // echo "<br>333The time is " . date("h:i:sa");
+
+    } else {
+        $res = 200;
+        //echo '<pre>';print_r($amaz_aug_asin);exit;
+        $image = $amaz_aug_asin->image;
+        $title_name = $amaz_aug_asin->title_name;
+        $rating = $amaz_aug_asin->rating;
+        $reviews = $amaz_aug_asin->review;
+        $seller_ids = $amaz_aug_asin->seller_id;
+   
+        $title_link = $amaz_aug_asin->seller_url;
+        $seller_name = $amaz_aug_asin->seller_name;
+
+        $inStock = "0";
+        $price = $amaz_aug_asin->selling_price;
+        $shipping = $amaz_aug_asin->shipping_price;
+
+        $requires_rescrape = false;
+    }
+    
+}
+
+?>
+<?php
+    if(!empty($res) && $res != 404){
+?>
+<div class="topBox text-left">
+                    <!-- <h3>Insert form</h3> -->
+                </div>
+
+                <div class="bottomContent" id="shows">
+                    <div class="formTop clearfix">
+                        <!-- <form action="" method="post" enctype="multipart/form-data"> -->
+                        <div class="col-lg-12" id="shows">
+                            <div class="inputType col-lg-2 image-div" >
+                                <img src="<?php if ( isset($image) && ($image != null) ) { echo str_replace('._SS160_','',$image); } else {  $image = "assets2/images/question-mark.png"; echo $image; } ?>" alt="" title="<?php if (isset($image) && $image != "assets2/user_data/question-mark.png") { echo $image; } else { echo 'Unable to fetch image from Amazon'; } ?>" >
+                                <input type="hidden" name="img" id="img_1" value="<?php if (isset($image)) { echo str_replace('._SS160_','',$image); } ?>">
+                            </div>
+                            <div class="inputType col-lg-5 amazon-content" >
+                                <h5 class="amazon-title-name">
+                                    <?php if (isset($title_name) && $title_name != null) { echo $title_name; } else { $title_name =  "Cannot fetch title from Amazon at this time"; echo $title_name; }?>
+                                </h5>
+                                <h5 class="amazon-asin">
+                                    <?php if (isset($asin)) {
+                                        echo $asin;
+                                    } ?>
+                                </h5>
+                                <h5 style="font-weight: bold !important;text-align: center">
+                                    <input type="hidden" name="title_name" id="title_name_1"
+                                           value="<?php if (isset($title_name)) {
+                                               echo $title_name;
+                                           } ?>">
+                                </h5>
+                                <h5 style="font-weight: bold !important;">
+                                    <input type="hidden" name="asin" id="asin_1" value="<?php if (isset($asin)) {
+                                        echo $asin;
+                                    } ?>">
+                                </h5>
+                                <div id="yes-submission" class="inputType submit-button-div " >
+                                    <!-- <input type='submit' name="submit1"  class='btn btn-embossed btn-primary btn-wide' style="border-top-left-radius: 0px;border-bottom-left-radius: 0px;background: #b65f2b;" value='Submit' /> -->
+                                    <?php if  (isset($requires_rescrape) && $requires_rescrape) { ?>
+                                        <button onclick="saveTodatabase(true)" class='btn btn-embossed btn-primary btn-wide'>
+                                            Submit
+                                        </button>
+                                    <?php } else { ?>
+                                        <!-- <button onclick="saveTodatabase()" class='btn btn-embossed btn-primary btn-wide'>
+                                            Submit
+                                        </button> -->
+                                    <?php } ?>
+                                </div>
+                                <div id="no-submission" class="inputType submit-button-div" style="display: none">
+                                    <!-- <input type='submit' name="submit1"  class='btn btn-embossed btn-primary btn-wide' style="border-top-left-radius: 0px;border-bottom-left-radius: 0px;background: #b65f2b;" value='Submit' /> -->
+
+                                    <button onclick="saveTodatabase(true)" class='btn btn-embossed btn-primary btn-wide'>
+                                        Submit Anyway
+                                    </button>
+                                    <button onclick="clearConfirmAsinDiv()" class='btn btn-embossed btn-primary btn-wide'>
+                                        Cancel
+                                    </button>
+                                </div>
+                            </div>
+                            <!--<div class="inputType col-lg-2 " style="margin-bottom: 0px;float:left;">
+
+                            </div>-->
+                            <input type="hidden" name="user_id" id="user_id_1" value="<?php echo $user_id; ?>">
+                            <!-- <input type="hidden" name="id" id="id_1" value="<?php//echo $amaz_aug_asin->id; ?>"> -->
+                            <input type="hidden" name="amznotseller" id="amznotseller_1"
+                                   value="<?php if (isset($amznotseller)) {
+                                       echo $amznotseller;
+                                   } ?>">
+                            <input type="hidden" name="stock_url" id="stock_url_1" value="<?php if (isset($stock_url)) {
+                                echo $stock_url;
+                            } ?>"><!--stock end-->
+                            <input type="hidden" name="sellerstock" id="sellerstock_1"
+                                   value="<?php if (isset($sellerstock)) {
+                                       echo $sellerstock;
+                                   } ?>">
+                            <input type="hidden" name="amazonstock" id="amazonstock_1"
+                                value="<?php if (isset($amazonstock)) {
+                                    echo $amazonstock;
+                                } ?>">
+                            <input type="hidden" name="rating" id="rating_1" value="<?php if (isset($rating)) {
+                                echo $rating;
+                            } ?>">
+                            <input type="hidden" name="reviews" id="reviews_1" value="<?php if (isset($reviews)) {
+                                echo $reviews;
+                            } ?>">
+                            <input type="hidden" name="seller_name" id="seller_name_1"
+                                   value="<?php if (isset($seller_name)) {
+                                       echo $seller_name;
+                                   } ?>">
+                            <input type="hidden" name="seller_url" id="seller_url_1"
+                                   value="<?php if (isset($seller_url)) {
+                                       echo $seller_url;
+                                   } ?>">
+                            <input type="hidden" name="seller_url" id="seller_url_1"
+                                   value="<?php if (isset($seller_url)) {
+                                       echo $seller_url;
+                                   } ?>">
+                            <input type="hidden" name="seller_ids" id="seller_ids_1"
+                                   value="<?php if (isset($seller_ids)) {
+                                       echo $seller_ids;
+                                   } ?>">
+                            <input type="hidden" name="price" id="price_1" value="<?php if (isset($price)) {
+                                echo $price;
+                            } ?>">
+                            <input type="hidden" name="shipping" id="shipping_1" value="<?php if (isset($shipping)) {
+                                echo $shipping;
+                            } ?>">
+                            <div class="col-lg-5 amazon-item-div" >
+                                <h3  class="amazon-correct-item">Is this the
+                                    correct item?</h3>
+                                <div class="holder">
+                                    <div class="selectMod pull-left" style="margin-right: 5px;">
+                                        <h3 class="text-center" style="font-size: 1.2em;">Yes</h3>
+                                        <div class="c-hold verticle-middle text-center">
+                                            <input type="radio" name="ans" value="yes" checked="yes" />
+                                            <label for="checkbox1" data-for="checkbox1" class="cb-label"></label>
+<!--                                            <input type='checkbox' value='' id='checkboxall1' data-c="yes"/>-->
+<!--                                            <label for='checkboxall1' data-for="checkboxall1"-->
+<!--                                                   class='cb-label checkboxall1'></label>-->
+                                        </div>
+                                    </div>
+                                    <div class="selectMod pull-right" style="margin-right: 5px;">
+                                        <h3 class="text-center" style="font-size: 1.2em;">No</h3>
+                                        <div class="c-hold verticle-middle text-center">
+                                            <input type="radio" name="ans" value="no"/>
+                                            <label for="checkbox1" data-for="checkbox1" class="cb-label"></label>
+<!--                                            <input type='checkbox' value='' id='checkboxall1' data-c="no"/>-->
+<!--                                            <label for='checkboxall1' data-for="checkboxall1"-->
+<!--                                                   class='cb-label checkboxall1'></label>-->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <!-- </form> -->
+                    </div>
+
+                </div>
+<?php } else { ?>
+   <center><p>Unable to fetch product from Amazon. Please try another ASIN !</p></center>
+<?php } ?>

@@ -1,0 +1,512 @@
+@import 'main';
+
+*{
+
+}
+
+@media screen and (max-width: 800px)
+{
+
+}
+
+.part {
+  .topHead{
+    padding-top: 15px;
+
+    h3{
+      font-size: 1.5em;
+      font-weight: 400;
+    }
+  }
+
+  .inputTho{
+    padding-top: 10px;
+
+    input{
+      width: 100%;
+      padding: .67861429em 1em;
+      font-size: 1em;
+      background: #fff;
+      border: 2px solid rgba(34,36,38,.15);
+      color: rgba(0,0,0,.87);
+      border-radius: .28571429rem;
+      box-shadow: 0 0 0 0 transparent inset;
+
+      font-weight: 400;
+      outline: none;
+    }
+  }
+}
+
+.bottomSubmit{
+  position: relative;
+  bottom: -206px;
+
+  .b{
+    padding: 10px;
+
+    p{
+      font-weight: 400;
+    }
+  }
+}
+
+
+
+.techReBody{
+
+  .rightCustomList{
+
+    .h{
+      border-bottom: 1px solid #eee;
+
+      padding-bottom: 15px;
+      margin-bottom: 5px;
+    }
+
+    .list{
+
+      ul{
+        padding: 0px;
+        margin: 0px;
+
+        li{
+          list-style: none;
+
+          padding: 10px;
+
+          background: #eee;
+          border-bottom: 1px solid white;
+
+          a{
+            color: #333;
+            font-weight: 400;
+          }
+        }
+      }
+    }
+  }
+
+  .leftPremadeList{
+    border-right: 1px solid #eee;
+    padding-left: 0px;
+
+    .h{
+      border-bottom: 1px solid #eee;
+
+      padding-bottom: 15px;
+      margin-bottom: 5px;
+    }
+
+    .list{
+
+      ul{
+        padding: 0px;
+        margin: 0px;
+
+        li{
+          list-style: none;
+
+          padding: 10px;
+
+          background: #eee;
+          border-bottom: 1px solid white;
+
+          a{
+            color: #333;
+            font-weight: 400;
+          }
+        }
+      }
+    }
+  }
+}
+
+.hidden{
+  display: none;
+}
+
+th.green{
+  color: $primarygreen;
+}
+
+th.red{
+  color: $primaryred;
+}
+
+body{
+  background: #ececec;
+}
+
+.mainIndividualCont{
+  .bottomHolder{
+    .listHolder{
+      #DataTables_Table_0_wrapper{
+        .row{
+          .col-sm-12{
+            padding-left: 15px;
+          }
+
+          .col-sm-6{
+            padding-left: 15px;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 800px)
+{
+  .mainMultipleCont {
+    .bottomHolder {
+      .listHolder {
+        #DataTables_Table_0_wrapper {
+          .row {
+            .col-sm-12, .col-sm-6 {
+              padding-left: 15px;
+            }
+
+            .col-sm-6{
+              #DataTables_Table_0_length{
+                padding-left: 0px !important;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+#DataTables_Table_0_wrapper{
+
+  .row:first-child{
+    margin-bottom: 15px;
+  }
+
+  .row, .col-sm-6{
+    .col-sm-12{
+      padding-left: 0px;
+    }
+  }
+}
+
+.c-hold{
+
+  input[type='checkbox'] {
+    opacity: 0;
+    position: absolute;
+  }
+
+  .cb-label{
+    margin-top: 6px;
+  }
+
+  .cb-label:before {
+    content: '\00a0';
+    display: inline-block;
+    line-height: 1.3;
+    height: 1.8rem;
+    width: 1.8rem;
+    text-align: center;
+
+    background: #ddd;
+    border-radius: .2rem;
+    margin-right: .3rem;
+  }
+
+  .cb-label:hover:before {
+    color: #fff;
+  }
+
+  input[type='checkbox']:checked ~ .cb-label:before {
+    background: rgb(64, 62, 65);
+    color: #fff;
+  }
+}
+
+.checkbox-type {
+  width: 5.5rem;
+  height: 2.5rem;
+  position: relative;
+}
+
+.checkbox-type input {
+  opacity: 0;
+}
+.checkbox-type label {
+  position: absolute;
+  background-color: #fff;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  border-radius: 3.125rem;
+  -webkit-transition: background-color .2s ease-in-out;
+  transition: background-color .2s ease-in-out;
+}
+.checkbox-type label:after {
+  content: "";
+  display: block;
+  width: 1.875rem;
+  height: 1.875rem;
+  border-radius: 3.125rem;
+  cursor: pointer;
+  position: absolute;
+  top: .3125rem;
+  z-index: 1;
+  left: .5rem;
+  background-color: #fff;
+  -webkit-transition: left .2s ease-in-out;
+  transition: left .2s ease-in-out;
+}
+.checkbox-type input[type=checkbox]:checked ~ label {
+  background-color: #b65f2b;
+}
+
+.checkbox-type input[type=checkbox]:checked ~ label:after {
+  left: 3.125rem;
+}
+
+.n{
+  border: none !important;
+  box-shadow: none !important;
+  color: white !important;
+}
+
+.st{
+  border: none;
+  background: white;
+}
+
+.a{
+  border-top: 1px solid #ddd !important;
+}
+
+#DataTables_Table_0_wrapper{
+
+  .row:first-child{
+    margin-bottom: 15px;
+  }
+}
+
+.mainMultipleCont{
+  .bottomHolder{
+    .listHolder{
+      #DataTables_Table_0_wrapper{
+        .row{
+          .col-sm-6{
+            padding-left: 0px;
+
+            .dataTables_length:first-of-type{
+              padding-left: 0px !important;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.no-footer {
+  border-bottom: none !important;
+}
+
+.mainTable{
+  border-left: 0px;
+  border: none;
+}
+
+th.text-center{
+  border-top: 1px solid #ddd;
+}
+
+
+.verticle-middle{
+  vertical-align: middle !important;
+}
+
+.menuListOpen{
+  outline: none;
+  cursor: pointer;
+}
+
+.mainReportsContainer{
+  background: white;
+  padding: 30px;
+
+  margin-toP: 40px;
+
+  box-shadow: 0 2px 0 0 rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid #F9F9F9;
+
+  border-radius: 2px;
+
+  @media screen and (min-width: 85.375em){
+    width: 1255px;
+  }
+
+  @media screen and (min-width: 120em){
+    width: 1746px;
+  }
+
+  @media screen and (min-width: 160em){
+    width: 1746px;
+  }
+
+  .innerContainer{
+    float: none;
+    margin:0% auto;
+
+    .topHeadPart{
+      padding-bottom: 25px;
+      border-bottom: 1px solid #eee;
+
+      h3{
+        font-size: 1.5em;
+        font-weight: 400;
+
+        color: #676a6c;
+      }
+    }
+
+    .bottomHolder{
+      .listHolder{
+        padding-top: 15px;
+
+        table{
+          width: 100%;
+          border-collapse: collapse;
+          padding-bottom: 0px;
+          margin-bottom: 0px;
+
+          thead{
+
+          }
+
+          tbody{
+
+            tr{
+              margin-bottom: 10px;
+
+              td{
+                margin-bottom: 10px;
+                box-shadow: 0 2px 3px 2px rgba(0,0,0,.03);
+
+                font-weight: 400;
+
+                a{
+                  color: #333;
+                  font-weight: 400;
+                }
+
+                a:hover{
+                  color: lighten(#2F4050, 10%);
+                  text-decoration: none;
+                }
+              }
+
+              th.b{
+                font-size: 1.5em;
+                font-weight: 400;
+              }
+
+              th.green{
+                color: $primarygreen;
+              }
+
+              th.red{
+                color: $primaryred;
+              }
+
+              th.menuListOpen:focus{
+                outline: none;
+              }
+
+              th{
+                .checkbox-type{
+                  margin-top: 15px;
+                  margin-left: -8px;
+                }
+              }
+            }
+          }
+        }
+
+        ul{
+          margin:0px;
+          padding: 0px;
+
+          li.listMaker{
+            border: 1px solid #e7ecf1 !important;
+            border-radius: 3px;
+
+            list-style: none;
+
+            padding: 12px 15px 15px;
+            background-color: #fff;
+
+            box-shadow: 0 2px 3px 2px rgba(0,0,0,.03);
+
+            .iconHolder{
+              padding-left: 0px;
+
+              img{
+                width: 60%;
+                background-size: cover;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+.gg{
+  border: 1px solid #dddddd !important;
+}
+.verticle-middle {
+  input[type='checkbox'] {
+    width:20px;
+    height: 20px;
+    cursor: pointer;
+  }
+}
+#technicalReport, #salesReport {
+   .bottomSubmit{
+      div.text-align {
+        p {
+          a{
+            color:#b65f2b;
+          }
+        }
+      }
+   }
+  .modal-footer{
+    button {
+      color:white;
+    }
+  }
+}
+#salesReport {
+  .modal-body {
+    .leftPremadeList {
+      .list {
+          li {
+            position: relative;
+
+            .c-hold{
+              input[type='checkbox'] {
+                width: 20px;
+                height: 20px;
+                position: absolute;
+                right: 12px;
+                top: 5px;
+                cursor: pointer;
+              }
+            }
+          }
+      }
+    }
+  }
+}

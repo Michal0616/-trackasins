@@ -1,0 +1,148 @@
+<?php
+require APPPATH . 'libraries/mailgun-php/vendor/autoload.php';
+require '/home/ubuntu/dev.trackasins.com/public/vendor/autoload.php';
+
+use Mailgun\Mailgun;
+use Spatie\Async\Pool;
+
+class Cron extends CI_Controller
+{
+
+    public function __construct()
+    {
+        parent::__construct();
+    }
+
+    public function index()
+    {
+        $pool = Pool::create()
+            ->concurrency(15)
+            ->timeout(240)
+            ->sleepTime(50000);
+
+        $trackingAsins = $this->db->query("SELECT * FROM amaz_aug where tracking=1")->result();
+        foreach ($trackingAsins as $previousScrape) {
+            $pool->add(function () use ($previousScrape) {
+                require_once __DIR__ . '/../helpers/common_helper.php';
+
+                $amzNotSeller = get_amazon_not_seller($previousScrape->asin);
+                $sellerStock = get_seller_stock($previousScrape->asin);
+
+                return [
+                    'amazon_stock_change' => $amzNotSeller != $previousScrape->amznotseller,
+                    'amazon_out_of_stock' => $amzNotSeller,
+                    'seller_in_stock' => $sellerStock,
+                    'previous_scrape' => $previousScrape
+                ];
+            })->then(function ($output) {
+                $this->updateDatabase($output);
+            })->catch(function (Throwable $e) {
+                echo 'Exception Thrown!' . PHP_EOL . 'Exception Message: ' . $e->getMessage() . PHP_EOL;
+            });
+        }
+        $pool->wait();
+    }
+
+    protected function updateDatabase($scrapeData)
+    {
+        $now = date('Y-m-d H:i:s');
+        $amazonOutOfStock = $scrapeData['amazon_out_of_stock'];
+        $sellerInStock = $scrapeData['seller_in_stock'];
+        $previousScrape = $scrapeData['previous_scrape'];
+
+        if ($scrapeData['amazon_stock_change']) {
+            // Log stock status change for reports
+            $this->common_model->insertData('amz_report', [
+                'asin' => $previousScrape->asin,
+                'amz_not_seller' => $amazonOutOfStock,
+                'date' => date('Y-m-d', strtotime($now))
+            ]);
+            $this->common_model->updateData(
+                'amaz_aug',
+                [
+                    'amznotseller' => $amazonOutOfStock,
+                    'sellerstock' => $sellerInStock
+                ],
+                [
+                    'asin' => $previousScrape->asin
+                ]
+            );
+            $notificationData = [
+                'user_id' => $previousScrape->user_id,
+                'image' => $previousScrape->image,
+                'title_name' => $previousScrape->title_name,
+                'asin' => $previousScrape->asin,
+                'sellerstock' => $sellerInStock,
+                'amznotseller' => $amazonOutOfStock,
+                'date' => $now,
+                'amzoutofstock' => $amazonOutOfStock
+            ];
+            $this->common_model->insertData('notification', $notificationData);
+            if ((!$amazonOutOfStock && $previousScrape->stock_noti == 'true') || $amazonOutOfStock) {
+                $this->notifySeller($notificationData, $previousScrape);
+            }
+        }
+    }
+
+    protected function notifySeller($notificationData, $previousScrape)
+    {
+        $user = $this->db->query("SELECT * FROM users where ID={$previousScrape->user_id}")->result();
+        $user = count($user) > 0 ? $user[0] : false;
+
+        if ($user) {
+            if ($previousScrape->email_noti == 'true') {
+                $this->notifyByEmail($user, $notificationData);
+            }
+            if ($previousScrape->phone_noti == 'true') {
+                $this->notifyByPhone($user, $notificationData);
+            }
+        }
+    }
+
+    protected function notifyByEmail($user, $notificationData)
+    {
+        $mgClient = new Mailgun('key-f14cf94304da5471b926ec3e4487773f');
+        $domain = "trackasins.com";
+        $date = date('m-d-Y', strtotime($notificationData['date']));
+        $message = $notificationData['amznotseller'] == '0' ? "Amazon back in stock on $date" : "Amazon ran out of stock on $date";
+        $html = "
+                        <html>
+                        <head>
+                            <title>TrackASINS</title>
+                        </head>
+                        <body>
+                            <h1>TrackASINS</h1>";
+        $html .= "<br/>
+                        <img src=\"{$notificationData['image']}\" style= \"width: 50px; height: 60px;\">
+                        <p>
+                            ASIN  : <b><a href=\"https://www.amazon.com/dp/{$notificationData['asin']}\">{$notificationData['asin']}</a></b> <br/>
+                            Title : <b>{$notificationData['title_name']}</b><br>
+                            Notification : <b>{$message}</b><br/>
+                            Are you in stock : <b>" . (($notificationData['sellerstock'] == '1') ? 'Yes' : 'No') . "</b>
+                        </p>";
+        $html .= "</body></html>";
+
+        $email = $user->additional_email != '' ? $user->additional_email : $user->email;
+        $result = $mgClient->sendMessage("$domain", [
+            'from' => 'TrackASINS <notifications@trackasins.com>',
+            'to' => $email,
+            'subject' => 'TrackASINS',
+            'html' => $html
+        ]);
+        if ($result) {
+            echo 'mail successfully send using cron script...';
+        }
+    }
+
+    protected function notifyByPhone($user, $notificationData)
+    {
+        if ($notificationData['amznotseller'] != '0') {
+            $message = "Following ASIN is back in Stock: " . $notificationData['asin'];
+        } else {
+            $message = "Following ASIN ran out of Stock: " . $notificationData['asin'];
+        }
+        echo file_get_contents("http://api.clickatell.com/http/sendmsg?user=nateadmin&password=eTcZDaXPRFacGY&api_id=3593336&to=" . $user->phone . "&text=$message");
+    }
+}
+
+

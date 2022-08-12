@@ -1,0 +1,337 @@
+@import 'main';
+
+*{
+
+}
+
+.c-hold{
+
+  input[type='checkbox'] {
+    opacity: 0;
+    position: absolute;
+  }
+
+  .cb-label{
+    margin-top: 6px;
+  }
+
+  .cb-label:before {
+    content: '\00a0';
+    display: inline-block;
+    line-height: 1.3;
+    height: 1.8rem;
+    width: 1.8rem;
+    text-align: center;
+
+    background: #ddd;
+    border-radius: .2rem;
+    margin-right: .3rem;
+  }
+
+  .cb-label:hover:before {
+    color: #fff;
+  }
+
+  input[type='checkbox']:checked ~ .cb-label:before {
+    background: $primarycolor;
+    color: #fff;
+  }
+}
+
+.checkbox-type {
+  width: 5.5rem;
+  height: 2.5rem;
+  position: relative;
+}
+.right-corner {
+  position: relative;
+  height: 0px;
+  .green {
+    color: #2ecc71;
+    a {
+      color: #2ecc71;
+    }
+  }
+  span {
+    font-size: 1.8em;
+    position: absolute;
+    top: 2px;
+    margin-top: -40px;
+    right: 10px;
+  }
+}
+.seller-find-modal{
+  .modal-footer{
+    border-top: 0px;
+    .back-to-sign-up{
+      margin-top: 15px;
+      background: #b65f2b;
+      color: white;
+    }
+  }
+}
+
+
+.checkbox-type input {
+  opacity: 0;
+}
+.checkbox-type label {
+  position: absolute;
+  background-color: #fff;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  border-radius: 3.125rem;
+  -webkit-transition: background-color .2s ease-in-out;
+  transition: background-color .2s ease-in-out;
+}
+.checkbox-type label:after {
+  content: "";
+  display: block;
+  width: 1.875rem;
+  height: 1.875rem;
+  border-radius: 3.125rem;
+  cursor: pointer;
+  position: absolute;
+  top: .3125rem;
+  z-index: 1;
+  left: .5rem;
+  background-color: #fff;
+  -webkit-transition: left .2s ease-in-out;
+  transition: left .2s ease-in-out;
+}
+.checkbox-type input[type=checkbox]:checked ~ label {
+  background-color: $primarycolor;
+}
+
+.checkbox-type input[type=checkbox]:checked ~ label:after {
+  left: 3.125rem;
+}
+
+body{
+  background: #ececec;
+}
+
+#ta_email_confirm{
+  padding-right: 20px;
+}
+
+.mainWrapper{
+  width: 100%;
+  padding-top: 190px;
+  padding-bottom: 50px;
+
+  .trueWrap{
+    margin: 0% auto;
+
+    .RegisterSec{
+      @extend .card;
+
+      padding: 20px;
+
+      .topHeadOfCard{
+        border-bottom: 1px solid #eee;
+        padding: 0px;
+        padding-bottom: 15px;
+
+        h3{
+          padding-right: 0px;
+          padding-left: 0px;
+        }
+
+        h3:first-child{
+          color: #676a6c;
+          font-weight: 400;
+        }
+
+        h3:nth-child(2){
+          font-size: 1.4em;
+          font-weight: 400;
+          text-align: right;
+
+          color: #ddd;
+
+          padding-top: 2px;
+
+          color: rgb(182, 95, 43);
+        }
+      }
+
+      .middleCardContent{
+        padding-top: 15px;
+        padding-left: 0px;
+        padding-right: 0px;
+
+        form{
+          margin-bottom: 0px;
+          .lastInput{
+            padding-bottom: 15px;
+            margin-bottom:0px;
+          }
+
+        }
+        .wayBottom{
+          p{
+            font-weight: 400;
+            padding-left: 0px;
+          }
+
+          input{
+            margin-top: 15px;
+            background: #b65f2b;
+            color: white;
+          }
+        }
+      }
+    }
+
+    .LoginSec{
+      @extend .card;
+
+      padding: 20px;
+
+      .topHeadOfCard{
+        border-bottom: 1px solid #eee;
+        padding: 0px;
+        padding-bottom: 15px;
+
+        h3{
+          padding-left: 0px;
+          padding-bottom: 10px;
+        }
+
+        h3:first-child{
+          color: #676a6c;
+          font-weight: 400;
+          font-size: 1.6em;
+        }
+
+        p{
+          font-weight: 600;
+          color: #676a6c;
+
+          margin: 0px;
+          padding: 0px;
+        }
+      }
+
+      .middleCardContent{
+        padding-top: 15px;
+        padding-left: 0px;
+        padding-right: 0px;
+
+        form{
+          margin-bottom: 0px;
+
+          .col-md-11{
+            margin-left: 6px;
+          }
+          .lastInput{
+            padding-bottom: 15px;
+            margin-bottom:0px;
+          }
+
+          input[type='email'], input[type='password']{
+            @extend .col-lg-12;
+          }
+
+          input[type='checkbox']{
+            width: 12px;
+          }
+        }
+
+        .wayBottom{
+          padding-top: 5px;
+
+          p{
+            font-weight: 400;
+            padding-left: 0px;
+            margin: 0px;
+            margin-top: 15px;
+          }
+
+          input{
+
+            margin-top: 15px;
+            background: #b65f2b;
+            color: white;
+          }
+        }
+      }
+    }
+  }
+  .remember-me-checkbox {
+    margin-top: 0px!important;
+    margin-bottom: 0px!important;
+  }
+}
+
+@media screen and (max-width: 768px){
+  .RegisterSec{
+    margin-bottom: 20px;
+  }
+
+  .f{
+    padding-right: 5px !important;
+  }
+
+  .l{
+    padding-left: 5px !important;
+  }
+}
+
+.footer{
+  width: 100%;
+  margin-top: 20px;
+
+  padding: 40px;
+  background: #262626;
+
+  .mainFooterHolder{
+
+    .row{
+
+      .in{
+
+        .into{
+
+          ul{
+            list-style: none;
+            margin-bottom: 0px;
+
+            li{
+              margin-top: 20px;
+
+              a{
+                font-size: 2em;
+                color: white;
+              }
+
+              a:hover{
+                color: #b65f2b;
+                text-decoration: none;
+                cursor: pointer;
+              }
+            }
+          }
+        }
+      }
+
+      .videoholder{
+
+
+        .old-trick{
+
+          iframe{
+            border: 20px solid rgb(0,0,0);
+            -webkit-border-radius: 20px !important;
+            -ms-border-radius: 20px !important;
+            -o-border-radius: 20px !important;
+            border-radius: 20px !important;
+          }
+        }
+      }
+    }
+  }
+}

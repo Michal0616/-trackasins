@@ -1,0 +1,93 @@
+<div class='mainCont'>
+    <div class="settingsHeadline headline headline-site-color">
+        <div class="container-fluid inner">
+            <div class="topHeadline container text-center">
+                <h3>Help & Support</h3>
+            </div>
+        </div>
+    </div>
+    <div class="mainSettingsCont">
+        <div class="container mainSettingCont">
+            <?php include('left_grid.php');?>
+            <div class="settingsMainCont col-lg-9 col-sm-12 pull-right">
+                <div class="innerCont card card-default clearfix">
+                    <div class="topHeader col-lg-12" style='border-bottom: 0px;padding-top: 8px;'>
+                        <h3>How Track ASINS works</h3>
+                    </div>
+                    <div class="bottomContent">
+                        <!-- FOR PROFILE PICTURE -->
+                        <div class="row help">
+                            <div class="topBannerArea">
+                                <div class="inner">
+                                    <p>Our third party seller ASIN tracking software was created with one purpose in mind, helping sellers remove obstacles in their way towards winning that coveted Buy Box spot.</p><br />
+                                    <p>Given there are enough things standing between you and that prime eCommerce real estate, we figured why not make this part at least easy.</p><br />
+                                    <p>So lets take a look at how it works!</p>
+                                </div>
+                            </div>
+                            <div class="bottomArea">
+                                <div class="firstArea">
+                                    <h3>Start</h3>
+                                    <h5>Log in to Dashboard</h5>
+                                </div>
+                                <div class="secondArea">
+                                    <div class="block">
+                                        <div class="topImage">
+                                        
+                                        </div>
+                                        <div class="blackCont">
+                                            <div class="topTitle">
+                                                <h2><span class="special">1</span> <span class="text">Add the ASIN to Your List</span></h2>
+                                            </div>
+                                            <div class="bottomArea">
+                                                <p>Simply just add the ASIN of the product you would like to track into the search bar and let the software do all the heavy lifting for you</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="arrow-down">
+                                        <img src="/trackasins/assets2/images/arrow-down.png" />
+                                    </div>
+                                    <div class="block">
+                                        <div class="topImage">
+                                        
+                                        </div>
+                                        <div class="blackCont">
+                                            <div class="topTitle">
+                                                <h2><span class="special">2</span> <span class="text">Add the ASIN to Your List</span></h2>
+                                            </div>
+                                            <div class="bottomArea">
+                                                <p>Once the software has found the correct product, confirm the item and it will automatically be added to your list of tracked ASINs. From there, the software will continuously check the inventory status of the product</p>
+                                            </div>
+                                            <div class="arrow-down">
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="arrow-down">
+                                        <img src="/trackasins/assets2/images/arrow-down.png" />
+                                    </div>
+                                    <div class="block">
+                                        <div class="topImage">
+                                        
+                                        </div>
+                                        <div class="blackCont">
+                                            <div class="topTitle">
+                                                <h2><span class="special">3</span> <span class="text">Receive an Alert</span></h2>
+                                            </div>
+                                            <div class="bottomArea">
+                                                <p>Once the item is no longer in stock within Amazon's inventory, youll receive an automatic alert letting you know the exact moment the item went out of stock and wheather or not you currently have any available quantity within your own inventory</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="lastArea">
+                                    <h3>Close the sale</h3>
+                                    <h5>After receiving the alert, its time for you to work your eCommerce magic and earn some easy sales. Its that simple.</h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

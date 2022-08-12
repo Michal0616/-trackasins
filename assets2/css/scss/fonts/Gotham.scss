@@ -1,0 +1,53 @@
+/*******************************************************************\
+*  This will hold the font-face interface for the gotham font      *
+*                                                                  *
+* @author - James Latten                                           *
+* @date - May 27th, 2016                                           *
+* @website - Sitelyft                                              *
+* @version 0.1                                                     *
+*                                                                  *
+\*******************************************************************/
+
+@font-face {
+  font-family: 'GothamLight';
+  src: url($base_url + 'assets/fonts/Gotham/light/light.eot');
+  src: url($base_url + 'assets/fonts/Gotham/light/light.eot?#iefix') format('embedded-opentype'),
+  url($base_url + 'assets/fonts/Gotham/light/light.woff') format('woff'),
+  url($base_url + 'assets/fonts/Gotham/light/light.ttf') format('truetype'),
+  url($base_url + 'assets/fonts/Gotham/light/light.svg#UbuntuItalic') format('svg');
+
+  font-weight: 100;
+}
+
+@font-face {
+  font-family: 'GothamRegular';
+  src: url($base_url + 'assets/fonts/Gotham/book/book.eot');
+  src: url($base_url + 'assets/fonts/Gotham/book/book.eot?#iefix') format('embedded-opentype'),
+  url($base_url + 'assets/fonts/Gotham/book/book.woff') format('woff'),
+  url($base_url + 'assets/fonts/Gotham/book/book.ttf') format('truetype'),
+  url($base_url + 'assets/fonts/Gotham/book/book.svg#UbuntuItalic') format('svg');
+
+  font-weight: 300;
+}
+
+@font-face {
+  font-family: 'GothamMedium';
+  src: url($base_url + 'assets/fonts/Gotham/medium/medium.eot');
+  src: url($base_url + 'assets/fonts/Gotham/medium/medium.eot?#iefix') format('embedded-opentype'),
+  url($base_url + 'assets/fonts/Gotham/medium/medium.woff') format('woff'),
+  url($base_url + 'assets/fonts/Gotham/medium/medium.ttf') format('truetype'),
+  url($base_url + 'assets/fonts/Gotham/medium/medium.svg#UbuntuItalic') format('svg');
+
+  font-weight: 500;
+}
+
+@font-face {
+  font-family: 'GothamBold';
+  src: url($base_url + 'assets/fonts/Gotham/bold/bold.eot');
+  src: url($base_url + 'assets/fonts/Gotham/bold/bold.eot?#iefix') format('embedded-opentype'),
+  url($base_url + 'assets/fonts/Gotham/bold/bold.woff') format('woff'),
+  url($base_url + 'assets/fonts/Gotham/bold/bold.ttf') format('truetype'),
+  url($base_url + 'assets/fonts/Gotham/bold/bold.svg#UbuntuItalic') format('svg');
+
+  font-weight: 700;
+}

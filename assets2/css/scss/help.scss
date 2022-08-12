@@ -1,0 +1,525 @@
+@import 'main';
+
+*{
+
+}
+
+@media screen and (max-width: 990px)
+{
+  .settingsNav{
+    margin-bottom: 15px;
+  }
+}
+
+.topInfo{
+
+	.in{
+		padding-left: 0PX;
+		
+		h5:first-child{
+			
+		}
+		
+		h5{
+			padding-bottom: 5px;
+		}
+	}
+}
+
+
+dd {
+    margin: 0;
+    padding: 20px;
+    font-size: 14px;
+    background: #eee;
+    padding: 20px;
+}
+
+dt {
+    cursor: pointer;
+    font-size : 18px;
+    line-height: 23px;
+    background: lighten($primarycolor, 50%);
+    border: 1px solid $primarycolor;
+    border-top: 1px solid none;
+    font-weight: 400;
+    color: $primarycolor;
+    text-align: left;
+    padding: 20px;
+}
+
+dt:first-child { border-top: 1px solid $primarycolor; }
+dt:nth-last-child(2) { border-bottom: 1px solid $primarycolor; }
+
+.hide2 { display: none;}
+
+
+.box{
+                cursor: pointer;
+
+                .innerBox {
+                  background: white;
+                  border: 1px solid rgba(0, 0, 0, 0.18);
+                  padding: 15px;
+                  padding-top: 10px;
+
+                  border-radius: 2px;
+
+                  .topHead{
+                    padding: 5px;
+                    border-bottom: 1px solid #eee;
+
+                    h3{
+                      font-size: 1.3em;
+                      font-weight: 400;
+
+                    }
+                  }
+
+                  .content{
+                    padding: 10px;
+                    margin-top: 10px;
+                    background: rgba(182, 95, 43, 0.3);
+
+                    h3{
+                      color: #000;
+                      padding-bottom: 5px;
+
+                      font-weight: 400;
+                      font-size: 1.5em;
+                    }
+
+                    h4{
+                      color: #333;
+
+                      font-weight: 400;
+                      font-size: 1.2em;
+                    }
+                  }
+                }
+              }
+
+.mainCont{
+	//margin-top: 90px;
+	
+	.mainSettingsCont{
+  margin-top: -40px;
+  margin-bottom: 50px;
+
+
+
+  .mainSettingCont{
+    @media screen and (min-width: 85.375em){
+      width: 1255px;
+    }
+
+    @media screen and (min-width: 120em){
+      width: 1746px;
+    }
+
+    @media screen and (min-width: 160em){
+      width: 1746px;
+    }
+    .settingsNav{
+
+      .card{
+        padding: 0px;
+
+        .topCard{
+          padding: 20px;
+
+          h3{
+            font-size: 1.5em;
+            font-weight: 400;
+
+            //color: #777;
+
+            padding-top: 0px;
+            padding-left: 0px;
+          }
+        }
+
+        .innerNav{
+
+          ul{
+
+            li{
+
+              a{
+                padding: 10px;
+                padding-left: 20px;
+
+                font-weight: 500;
+                font-size: 1.1em;
+
+                //color: #777;
+                color: #333;
+              }
+            }
+
+            li.active{
+              background: rgba(182, 95, 43, .6);
+              border-left: 3px solid lighten(rgb(182, 95, 43), 10%);
+
+
+              margin-left: -3px;
+
+              a {
+                padding: 10px;
+                padding-left: 20px;
+                color: white;
+              }
+            }
+
+            li:hover{
+              @extend .active;
+              cursor: pointer;
+
+              a{
+                color: white;
+                background: transparent;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    .settingsMainCont{
+      .card{
+
+        .topHeader{
+          border-bottom: 1px solid #eee;
+
+          padding-bottom: 18px;
+
+          h3{
+            font-size: 1.5em;
+            font-weight: 400;
+
+            //color: #777;
+
+            padding-top: 0px;
+            padding-left: 0px;
+          }
+        }
+
+        .bottomContent{
+          padding-top: 20px;
+
+          .help{
+            margin-top: 30px;
+            margin-right: -20px;
+            margin-left: -20px;
+
+            .topBannerArea{
+              padding: 20px;
+              background: #d27842;
+
+              .inner{
+
+                p{
+                  color: white;
+                  font-weight: 600;
+                }
+              }
+            }
+
+            .bottomArea{
+
+              .firstArea, .lastArea{
+                padding-top: 30px;
+
+                h3{
+                  text-align: center;
+                  font-size: 25px;
+
+                  color: #d27842;
+                }
+
+                h5{
+                  text-align: center;
+                  padding: 5px;
+
+                  font-weight: 600;
+                }
+              }
+
+              .secondArea{
+                width: 400px;
+                margin: 0% auto;
+
+                .arrow-down{
+                  text-align: center;
+
+                  padding-top: 20px;
+                  padding-bottom: 20px;
+
+                  img{
+                    width: 50px;
+                  }
+                }
+
+                .block{
+                  background: #333;
+
+                  .topImage{
+
+                  }
+
+                  .blackCont{
+
+                    .topTitle{
+                      height: 40px;
+
+                      h2{
+                        color: white;
+                        font-size: 18px;
+
+                        span.text{
+                          padding-top: 10px;
+                          display: block;
+
+                          font-weight: 600;
+                        }
+
+                        span.special{
+                          padding: 15px;
+                          padding-top: 5px;
+                          padding-bottom: 5px;
+
+                          font-size: 28px;
+                          font-weight: 600;
+
+                          float: left;
+                          margin-right: 15px;
+
+                          width: 45px;
+
+                          display: block;
+
+                          background: #d27842;
+
+                        }
+                      }
+                    }
+
+                    .bottomArea{
+                      padding: 10px;
+
+                      p{
+                        color: white;
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+          .about-us-holder{
+            h3, h4 , p{
+              color: #777;
+            }
+          }
+          .faq-collection{
+            .panel-heading .accordion-toggle:after {
+              font-family: 'Glyphicons Halflings';
+              content: "\e114";
+              float: right;
+              color: grey;
+            }
+            .panel-heading .accordion-toggle.collapsed:after {
+              content: "\e080";
+            }
+            .panel-title{
+              .accordion-toggle{
+                text-decoration: none;
+                i {
+                  padding-right: 10px;
+                }
+              }
+
+            }
+            .qSec{
+              padding-top: 15px;
+              padding-bottom:15px;
+            }
+          }
+          .profilePictureHolder{
+            border-bottom: 1px solid #eee;
+            padding-bottom: 18px;
+            
+            .list-holder{
+			  padding-top: 20px;
+
+			  float: none;
+			  margin:0% auto;
+
+			  .list-item{
+				padding: 10px;
+
+				.list-number-holder{
+
+				  .numCircle{
+					width: 36px;
+					height: 36px;
+					padding: 8px;
+
+					border-radius: 50%;
+					text-align: center;
+					color: $primary_dark_font_color;
+					background: lighten(#ddd, 7%);
+
+					font-size: 1.2em;
+				  }
+				}
+
+				.list-body-content{
+
+				  .l-bold{
+					font-weight: 500;
+					font-size: 1.1em;
+				  }
+
+				  .l-small{
+					font-size: 1.1em;
+					font-weight: 400;
+					color: $primary_font_color;
+				  }
+				}
+			  }
+      		}
+
+            form{
+
+              .topProfilePicHolder{
+                border: 1px solid #eee;
+                padding: 5px;
+
+                border-radius: 3px;
+                margin-bottom: 10px;
+
+                width: 150px;
+
+                img{
+                  height: 100%;
+                  width: 100%;
+
+                  border-radius: 3px;
+                }
+              }
+
+              .selectHolder{
+                padding: 5px;
+                border: 1px solid #eee;
+                border-radius: 3px;
+
+                width: 180px;
+
+                input{
+                  font-weight: 400;
+                  font-size: 1em;
+                }
+              }
+
+              .bottomProfilePicForm{
+                padding-top: 10px;
+              }
+            }
+          }
+
+          .changePasswordHolder{
+
+            form{
+              .box{
+                cursor: pointer;
+
+                .innerBox {
+                  background: white;
+                  border: 1px solid rgba(0, 0, 0, 0.18);
+                  padding: 15px;
+                  padding-top: 10px;
+
+                  border-radius: 2px;
+
+                  .topHead{
+                    padding: 5px;
+                    border-bottom: 1px solid #eee;
+
+                    h3{
+                      font-size: 1.3em;
+                      font-weight: 400;
+
+                    }
+                  }
+
+                  .content{
+                    padding: 10px;
+                    margin-top: 10px;
+                    background: rgba(182, 95, 43, 0.3);
+
+                    h3{
+                      color: #000;
+                      padding-bottom: 5px;
+
+                      font-weight: 400;
+                      font-size: 1.5em;
+                    }
+
+                    h4{
+                      color: #333;
+
+                      font-weight: 400;
+                      font-size: 1.2em;
+                    }
+                  }
+                }
+              }
+
+              .topProfilePicHolder{
+                border: 1px solid #eee;
+                padding: 5px;
+
+                border-radius: 3px;
+                margin-bottom: 10px;
+
+                width: 150px;
+
+                img{
+                  height: 100%;
+                  width: 100%;
+
+                  border-radius: 3px;
+                }
+              }
+
+              .selectHolder{
+                padding: 5px;
+                border: 1px solid #eee;
+                border-radius: 3px;
+
+                width: 180px;
+
+                input{
+                  font-weight: 400;
+                  font-size: 1em;
+                }
+              }
+
+              .bottomProfilePicForm{
+                padding-top: 10px;
+              }
+            }
+          }
+
+          .basicInfoCont{
+            padding-top: 18px;
+
+            padding-left: 0px !important;
+          }
+        }
+      }
+    }
+  }
+}
+}
